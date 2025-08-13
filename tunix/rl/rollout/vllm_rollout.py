@@ -40,7 +40,7 @@ class VllmRollout(base_rollout.BaseRollout):
     self.mesh = mesh
     self._sampler = vllm_sampler.VllmSampler(
         tokenizer=tokenizer,
-        vllm_sampler.VllmConfig(
+        config=vllm_sampler.VllmConfig(
           max_model_len=cache_config_or_size,
           mesh=mesh,
           model_version=model_version,

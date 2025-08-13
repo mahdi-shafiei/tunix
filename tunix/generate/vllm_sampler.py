@@ -78,8 +78,8 @@ class VllmSampler(base_sampler.BaseSampler):  # pylint: disable=invalid-name
     # Select vllm TPU backend type, there are jax, torchax and torchxla
     if config.tpu_backend_type:
       os.environ["TPU_BACKEND_TYPE"] = config.tpu_backend_type
-    # Init vLLM model with random weights to speed up bootstrap time, because model weights are synced from
-    # trainer later on
+    # Init vLLM model with random weights to speed up bootstrap time, because 
+    # model weights are synced from trainer later on
     if config.init_with_random_weights:
       os.environ["JAX_RANDOM_WEIGHTS"] = "True"
 
@@ -121,7 +121,7 @@ class VllmSampler(base_sampler.BaseSampler):  # pylint: disable=invalid-name
     else:
       raise NotImplementedError("Only support in memory weight sync as of now.")
 
-  def _vllm_config(self):
+  def _vllm_config(self, config: VllmConfig):
     args = {}
     args["additional_config"] = {}
     args["model"] = config.model_version
@@ -129,7 +129,8 @@ class VllmSampler(base_sampler.BaseSampler):  # pylint: disable=invalid-name
     args["tensor_parallel_size"] = config.mesh.shape["tp"]
     args["gpu_memory_utilization"] = config.hbm_utilization
     if config.mapping_config.lora_config is not None:
-      args["additional_config"]["lora_config"] = config.mapping_config.lora_config
+      args["additional_config"]["lora_config"] = 
+        config.mapping_config.lora_config
     return args
 
   @property
